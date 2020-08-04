@@ -199,6 +199,7 @@ TESTS = tests/addid1.sh tests/addid1.sh tests/ascxml.sh\
 	tests/select16.sh tests/select17.sh tests/select18.sh\
 	tests/select19.sh tests/select20.sh tests/select21.sh\
 	tests/select22.sh tests/select23.sh tests/select24.sh\
+	tests/select25.sh\
 	tests/tabletrans1.sh tests/tabletrans2.sh tests/tabletrans3.sh\
 	tests/tabletrans4.sh tests/tabletrans5.sh\
 	tests/toc1.sh tests/toc2.sh tests/toc3.sh tests/toc4.sh\

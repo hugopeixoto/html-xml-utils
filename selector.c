@@ -314,12 +314,20 @@ EXPORT Selector parse_selector(const string selector, string *rest)
       else errexit("Expected string or name after \"=\" but found \"%c\"\n",*s);
       break;
     case DSTRING:				/* Inside "..." */
-      if (*s == '"') {s++; state = AFTER_VALUE;}
+      if (*s == '"') {
+        s++;
+        if (!sel->attribs->value) sel->attribs->value = newstring("");
+        state = AFTER_VALUE;
+      }
       else if (*s == '\\') parse_escape(&s, &sel->attribs->value);
       else {strappc(&sel->attribs->value, *s); s++;}
       break;
     case SSTRING:				/* Inside "..." */
-      if (*s == '\'') {s++; state = AFTER_VALUE;}
+      if (*s == '\'') {
+        s++;
+        if (!sel->attribs->value) sel->attribs->value = newstring("");
+        state = AFTER_VALUE;
+      }
       else if (*s == '\\') parse_escape(&s, &sel->attribs->value);
       else {strappc(&sel->attribs->value, *s); s++;}
       break;
