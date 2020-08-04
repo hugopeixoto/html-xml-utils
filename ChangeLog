@@ -1,0 +1,1367 @@
+2019-10-05  Bert Bos  <bert@w3.org>
+
+	* Published version 7.8.
+
+	* textwrap.c, langinfo.c, hxnormalize.c: Added knowledge about
+	languages that do not use spaces between words. In such languages,
+	a newline should not be converted to a space in outc() in
+	textwrap.c, but only to a break opportunity.
+
+2019-08-28  Bert Bos  <bert@w3.org>
+
+	* hxtoc.c: The element to group headings in HTML5 is called
+	HGROUP, not HEADER. The heading of a section (SECTION, ARTICLE,
+	etc.) need not be the first element, there may be non-header
+	elements before it.
+
+	* hxwls.c: Print "longdesc", "classid" or "codebase" in the second
+	column for the corresponding attribute. Also recognize srcset
+	(somewhat).
+
+2018-08-03  Bert Bos  <bert@w3.org>
+
+	* hxnormalize.c: Added option -X to indicate the input is XML
+	instead of HTML. Handle conversion of CDATA elements to XML by
+	escaping < and & instead of adding <![CDATA[. Added corresponding
+	test normalize13.sh.
+
+2018-04-29  Bert Bos  <bert@w3.org>
+
+	* Released version 7.7.
+
+	* dtd.hash: Don't include the arguments in the forward declaration
+	of lookup_element(), because those arguments differ slightly
+	depending on which version of gperf is used to generate dtd.c:
+	"unsigned int" in gperf 3.0 vs "size_t" in gperf 3.1.
+
+	* conficgure.ac: Check for libiconv with the AM_ICONV macro (from
+	gettext) instead of AC_SEARCH_LIBS. (Advice from Christian
+	Weisgerber, received via Anthony Bentley). That in turn requires
+	adding config.rpath to the EXTRA_DIST in Makefile.am.
+
+2018-02-23  Bert Bos  <bert@w3.org>
+
+	* tests/index10.sh: Added a test for a term database.
+
+	* hxindex.c: Replaced fgets() by getline(), to allow lines of
+	arbitrary length in the term database.
+
+2018-02-15  Bert Bos  <bert@w3.org>
+
+	* tests/index9.sh: Added a test for hxindex's option -N.
+
+	* tests/index5.sh: Updated for hxindex's option -N.
+
+	* tests/cite5.sh: Added the example from hxmkbib.1 as a test.
+
+	* tests/normalize12.sh: Added a test for the NOSCRIPT element.
+
+	* hxindex.1: Added option -N.
+
+	* hxmkbib.1: The example was missing some "%" signs.
+
+	* hxmkdir.c: Read the template before reading the auxfile, so that
+	a pipe like "hxcite -a auxfile bib template | hxmkbib -a auxfile
+	bib" becomes possible. hxcite will have the time to finishe
+	writing the auxfile before hxmkbib reads it.
+
+2018-02-12  Bert Bos  <bert@w3.org>
+
+	* hxindex.c: Added option -N.
+
+	* dtd.hash: Since HTML5, the NOSCRIPT element is phrase-level
+	instead of block-level.
+
+2018-02-09  Bert Bos  <bert@w3.org>
+
+	* Version 7.6 released.
+
+	* selmatch.c: matches_sel() could read uninitialized memory
+	(h->parent where h is the root of a tree) potentially leading to a
+	SIGBUS. Thanks to Anthony J. Bentley for finding this bug.
+
+2018-01-20  Bert Bos  <bert@w3.org>
+
+	* Version 7.5 released.
+
+	* hxcite.1: Spelling error.
+
+	* hxincl.1: Spelling error.
+
+	* url.c: Fixed unsafe way to call warnx(). Thanks to Robin
+	Naundorf for these three corrections.
+
+2017-12-08  Bert Bos  <bert@w3.org>
+
+	* tests/normalize11.sh: Added to test for "main".
+
+	* dtd.hash: Added the HTML5 element "main".
+
+2017-12-07  Bert Bos  <bert@w3.org>
+
+	* hxwls.c: Added support for HTML5 elements (source, audio, video)
+	and for the classid and codebase attribute. Fixed an error: input
+	has a src attribute, not href.
+
+2017-11-24  Bert Bos  <bert@w3.org>
+
+	* Version 7.4 released.
+
+	* hxremove.1, hxselect.1: Updated.
+
+	* tests/remove4.sh, tests/select18.sh, tests/select19.sh,
+	tests/select20.sh, tests/select21.sh, tests/select22.sh,
+	tests/remove5.sh tests/remove6.sh tests/remove7.sh,
+	tests/select23.sh tests/select24.sh: Added.
+
+	* selmatch.c: Now handles the ':not()' pseudo-class and
+	comma-separated selectors. Fixed a bug in matching the ':root'
+	pseudo-class.
+
+	* hxremove.c, hxselect.c: parse_selector() has different
+	arguments.
+
+	* selector.c: Now parses the ':not()' pseudo-class and
+	comma-separated selectors. Errors are now printed with a newline
+	at the end. Added new functions to dump (serialize) a selector to
+	a file, useful for debugging.
+
+	* openurl.c: Functions now either return CURLcode or CURLMcode,
+	but not some mixture.
+
+2017-11-11  Bert Bos  <bert@w3.org>
+
+	* dtd.hash: Added some HTML5 elements: source, track, wbr (because
+	they are empty) and audio and video (as parents for source and
+	track).
+
+	* toc4.sh, normalize10.sh: Added tests for the <source> element.
+
+	* Released version 7.3.
+
+2017-10-16  Bert Bos  <bert@w3.org>
+
+	* normalize9.sh: Added test for A inside FIGCAPTION.
+
+	* dtd.hash: An A can now be inside a FIGCAPTION. Made source
+	shorter and more readable with some macros.
+
+2017-10-06  Bert Bos  <bert@w3.org>
+
+	* Released version 7.2.
+
+	* tests/extract1.sh: Added option -N to nc, to close the
+	connection after EOF on stdin, because hxextract (with libcurl)
+	seems to wait for the closing of the connection.
+
+	* tests/unent1.ssh, tests/unent2.ssh, tests/unent3.ssh,
+	tests/unent4.ssh, tests/unent5.ssh: Added tests for hxunent.
+
+	* hxunentmain.c: Fixed bug reported by Laurent Martelli: When a
+	line was longer than the 4096-byte buffer, an entity could be on
+	the edge between two buffers and not be recognized.
+
+2017-08-13  Bert Bos  <bert@w3.org>
+
+	* extract1.sh: return code 77 (skip) rather than 0 when netcat is
+	unavailable.
+
+	* tests/pipe4.sh, tests/select01.sh, ..., tests/select17.sh,
+	tests/unpipe6.sh: New tests.
+
+	* scan.l: Accept non-ASCII characters in names (element names,
+	attribute names, etc.)
+
+	* hxselect.c, hxremove.c: Put their common code in
+	selmatch.c. hxselect now uses the data structures from tree.c,
+	just like hxremove.c. The non-element selector '::attr(...)' is
+	now also supported.
+
+	* selector.c, selmatch.c: Added support for more structural
+	pseudo-classes (last-child, nth-last-of-type, etc.). Generalized
+	support for backslash escapes. Support hexadecimal backslash
+	escapes also outside ASCII range (such characters are converted to
+	UTF-8). Bug fixes.
+
+2016-10-17  Bert Bos  <bert@w3.org>
+
+	* Released version 7.1.
+
+	* textwrap.c, hxnormalize.c, normalize7.sh, normalize8.sh: Allow a
+	line break before the final ">" of a tag. Line length (option -l)
+	is now counted in characters, not bytes, at least if it is UTF-8.
+	Added two tests for these new features.
+
+2016-05-10  Bert Bos  <bert@w3.org>
+
+	* hxunpipe.c: Added option -b to escape SGML delimiters.
+
+2016-04-14  Bert Bos  <bert@w3.org>
+
+	* Released version 7.0.
+
+	* hxwls.c: Added option -a to output URLs in ASCII (using punycode
+	and %-escaping if needed). Converting Internationalized Domain
+	Names to ASCII (with punycode) requires libidn or libidn2.
+
+2016-04-08  Bert Bos  <bert@w3.org>
+
+	* wls3.sh, wls5.sh: Tests for hxwls (entity expansion, ASCII
+	conversion)
+
+	* hxwls.c: Expand entities in URLs, into ASCII characters if
+	possible, or into %-escaped UTF-8 octets otherwise.
+
+2016-03-10  Bert Bos  <bert@w3.org>
+
+	* tree.c (main): dumptree() now takes a FILE argument.
+
+2016-03-07  Bert Bos  <bert@w3.org>
+
+	* hxnormalize.c: Attempt at inserting <![CDATA[...]]> into <style>
+	and <script> when going from HTML to XML and removing it again
+	when going from XML to HTML. (Problem: We know whether the output
+	is XML or not, but not whether the input is supposed to be XML...)
+
+2016-03-04  Bert Bos  <bert@w3.org>
+
+	* hxindex.c: Added options -O and -X to restrict the elements to
+	index.
+
+2015-07-21  Bert Bos  <bert@w3.org>
+
+	* tree.c: When a CDATA element (i.e., <script> or <style>) is
+	opened, instruct the lexical scanner to only recognize the
+	element's end tag and treat everything else as text. (Note that
+	this matches HTML5, but not SGML: in SGML, any "</foo" or even
+	"</>" would end the CDATA element.)
+
+	* normalize3.sh: new test to check parsing of CDATA elements.
+
+	* normalize4.sh: new test to check parsing of CDATA elements.
+
+	* scan.l: Added an initial condition CDATA that can be started
+	from the tree builder (tree.c) when a CDATA element is opened.
+
+	* dtd.hash: Added a field to indicate that an element is defined
+	as CDATA
+
+2015-03-12  Bert Bos  <bert@w3.org>
+
+	* Makefile.am: Added another test: normalize2.sh. Added header2.c
+	to the sources for hxprintlinks. Use groff instead of man2html to
+	make HTML versions of the man pages.
+
+	* dtd.hash: RDFA, in contrast to HTML, says that <meta> may be
+	used as phrase-level element as well as in the <head>. The HTML
+	tree now allows meta as RDFA says, at the cost of less error
+	correction.
+
+2015-01-23  Bert Bos  <bert@w3.org>
+
+	* hxprintlinks: Replaced the Perl version by a (better) C
+	version. Added corresponding tests.
+
+2015-01-22  Bert Bos  <bert@w3.org>
+
+	* hxtoc.c: Added option -f (flatten) to remove element structure
+	from headers when they are copied to the ToC.
+
+2014-10-21  Bert Bos  <bert@w3.org>
+
+	* Released version 6.9.
+
+	* scan.l: Don't declare strndup() as a function if it is in fact a
+	macro. (If _GNU_SOURCE is defined and the compiler is called with
+	-O, strndup() may be a macro instead of a function.)
+
+2014-10-06  Bert Bos  <bert@w3.org>
+
+	* hxtoc.c: HTML5 now has a "header" element instead of an
+	"hgroup."
+
+	* dtd.hash: Added HTML5 elements header, aside, section, article,
+	nav and figure. They currently behave very much like a div. Added
+	figcaption, which is allowed inside figure.
+
+2014-10-02  Bert Bos  <bert@w3.org>
+
+	* extract1.sh: Explicitly use 127.0.0.1 (an IPv4 address) instead
+	of localhost, because the latter may resolve to ::1 (an IPv6
+	address), which recent libcurl will use, but nc by default only
+	listens to IPV4 traffic.
+
+2014-09-02  Bert Bos  <bert@w3.org>
+
+	* hxnormalize.c: A system literal is only required in the DOCTYPE
+	of an XML document if there also is a public literal.
+
+2014-08-18  Bert Bos  <bert@w3.org>
+
+	* types.c: removed modifier "inline" from min() and max()
+	functions so that hxindex compiles also with clang. clang, unlike
+	gcc, but in conformance with the C99 standard, considers inline
+	functions as static function (i.e., not exported).
+
+	* openurl.c: fixed bug, where wait_for_data() was meant to return
+	a code of type CURLcode, but actually returned CURLMcode.
+
+	* Added option -s (rewrite links to self) to hxcopy.
+
+2014-07-21  Bert Bos  <bert@w3.org>
+
+	* Makefile.am: "make install" now also installs the COPYING file
+	in docdir (by default /usr/local/share/doc/html-xml-utils/)
+
+2014-04-02  Bert Bos  <bert@w3.org>
+
+	* hxnormalize.c: Option -x now also creates an (empty) system
+	literal in the doctype if the input didn't have one.
+
+	* scan.l: Also escape '<' and '>' in attributes. Allowed but not
+	needed for SGML (and hence HTML4), but required by XML.
+
+2014-03-14  Bert Bos  <bert@w3.org>
+
+	* tests/extract1.sh: Now trying with and without a -p option to
+	nc, as that option is required on some versions of nc and
+	disallowed on others. Its absence caused the test to hang on some
+	platforms. Also removed bash-specific syntax, for more
+	portability.
+	(Thanks to Anthony J. Bentley <anthony [at] cathet.us>)
+
+2014-03-12  Bert Bos  <bert@w3.org>
+
+	* Released 6.7
+
+	* openurl.c: Include fopencookie.h instead of fopencookie.e
+
+	* fopencookie.c: Don't use cexport to generate a header file
+	fopencookie.e but use a static fopencookie.h. (We need to
+	distribute this header file, but the .e file may be empty.)
+
+	* bootstrap.sh: No need for "-I m4" anymore, because the option is
+	now in the Makefile.am.
+
+	* Makefile.am: Need to make cexport before .e files can be
+	generated. (The fix for distcheck wasn't complete yet.) Don't
+	generate fopencookie.e, but provide a static fopencookie.h and
+	make most programs depend on that.
+
+2014-03-11  Bert Bos  <bert@w3.org>
+
+	* Released 6.6
+
+	* Makefile.am: (Finally :-) ) fixed an error reported by "make
+	distcheck" (files left after distclean), by depending .e files on
+	cexport.c, rather than on the binary cexport.
+
+	* Makefile.am: Added "ACLOCAL_AMFLAGS = -I m4" to make aclocal
+	search configuration macros in the directory m4.
+
+	* hxcite.c, hxindex.c, hxmkbib.c, genid.c: Removed duplicate
+	inclusion of <errno.h>
+
+	* openurl.c, hxcopy.c: Include <errno.h> instead of <sys/errno.h>
+	so that they compile on OpenBSD. (Thanks to Anthony J. Bentley
+	<anthony [at] cathet.us>)
+
+2014-01-15  Bert Bos  <bert@w3.org>
+
+	* Released 6.5
+
+2013-10-08  Bert Bos  <bert@w3.org>
+
+	* openurl.c: Removed a forgotten occurrence of "Boolean" in the
+	code path for compilations without libcurl.
+
+	* hxcite.1: Documented the use of %K lines.
+
+	* hxcite.c: Now looks for labels also on %K lines.
+
+2013-07-27  Bert Bos  <bert@w3.org>
+
+	* Makefile.am: No longer uses $(wildcard) to find all tests, which
+	doesn't work anymore in automake since version 1.14.
+
+	* hkmkbib.c: Now uses getopt() so that invalid options no longer
+	cause a crash.
+
+	* hkwls.c: Now uses getopt() so that invalid options no longer
+	cause a crash.
+
+	* All programs now include "config.h" instead of <config.h>.
+	Somebody found it easier to compile them that way.
+
+	* configure.ac: Renamed configure.in to configure.ac. Removed
+	acinclude.m4 and put all macro definitions in separate files in
+	directory m4.
+
+	* hxnum.c: now using getopt() to parse and verify the command
+	line.
+
+2013-07-25  Bert Bos  <bert@w3.org>
+
+	* hxindex.c: fixed crash when argument to trim() is NULL.
+
+	* acinclude.m4: removed definition of LIBCURL_CHECK_CONFIG, there
+	is one already in /usr/share/aclocal/libcurl.m4
+
+
+2013-04-19  Bert Bos  <bert@w3.org>
+
+	* Released 6.4
+
+2013-03-23  Bert Bos  <bert@w3.org>
+
+	* toc1.sh: Added a first test for hxtoc.
+
+	* Removed type Boolean in favor of bool from stdbool.h.
+
+	* hxtoc.c: Implemented the HTML5 algorithm which says that a Hn
+	that is the first child of a sectioning element (or of a HGROUP
+	that is itself the first child of a sectioning element) doesn't
+	have level n, but a level equal to the number of ancestors that
+	are sectioning elements. Where a sectioning element is a DIV,
+	SECTION, ARTICLE, ASIDE or NAV whose first child is either an
+	HGROUP or an Hn.
+
+2013-03-18  Bert Bos  <bert@w3.org>
+
+	* hxtoc.c: option -d not only looks for DIV elements, but now also
+	for ARTICLE, ASIDE, NAV and SECTION.
+
+2013-01-09  Bert Bos  <bert@w3.org>
+
+	* Released 6.3
+
+	* scan.l: A lonely "<" is allowed in SGML (although not in
+	XML). Accept it and turn it into a "&lt;".
+
+2012-11-16  Bert Bos  <bert@w3.org>
+
+	* tests: Added incl10.sh, incl11.sh and index5.sh.
+
+	* hxindex.c: Fixed bug in command line parsing that caused hxindex
+	not to accept the -b option. Added options -s and -u to control
+	the title attribute that is added on links when -n is used. The
+	title attribute now contains something like "section 3.2" or, if
+	-b is also used, something like "Working with cork, section
+	3.2". The format of the index database for option -i changed and
+	now includes the document title. The program now uses errx()
+	instead of errexit(), so that error messages include the program
+	name.
+
+2012-10-23  Bert Bos  <bert@w3.org>
+
+	* openurl.c: Added some assert() statements.
+
+	* hxincl.c: Added options -v and -M.
+
+	* hxaddid.c hxcite.c hxcopy.c hxextract.c hxpipe.c hxref.c
+	hxremove.c hxselect.c: Added option -v to print the version
+	number.
+
+	* hxtabletrans.c: Added.
+
+2012-10-21  Bert Bos  <bert@w3.org>
+
+	* selector.c: Renamed Root to RootSel to avoid clash with Root in tree.c
+
+	* hxremove.c: Added
+
+	* tree.c: Added some routines to add nodes to a tree without
+	checking against the HTML DTD (useful for generic XML documents
+	and used by hxremove)
+
+2012-10-19  Bert Bos  <bert@w3.org>
+
+	* scan.l: added set_yyin() and get_yyin_name() to store/retrieve
+	the name of the file that is going to parsed. Also added the file
+	name as a parameter to include_file(). This is used by hxincl.c
+
+	* hxincl.c: Now remembers the name of the included file so that
+	the path of a recursively included file is relative to the file
+	that includes it, rather than to the top level file.
+
+2012-10-18  Bert Bos  <bert@w3.org>
+
+	* hxincl.c: Now allows %-delimited variables in the file name that
+	is to be included.
+
+2012-10-09  Bert Bos  <bert@w3.org>
+
+	* extract1.sh: Added a "sleep 1" after starting the servers to
+	allow them more time to start and open some sockets.
+
+	* hxref.c: "@", "(", ")" and "_" are now treated as significant
+	letters when comparing terms.
+
+	* genid.c: "@" is now used in the generated ID replaced by the
+	letters "at" and "_" is kept as is.
+
+2012-10-02  Bert Bos  <bert@w3.org>
+
+	* Released version 6.2
+
+	* html.y: fixed type error in call() macro: void != NULL. (Bug
+	found by Michael Tautschnig of Debian)
+
+2012-08-31  Bert Bos  <bert@w3.org>
+
+	* hxnormalize.c: When checking whether an optional end tag can be
+	omitted, skip any text nodes with only spaces. In HTML mode, don't
+	try to guess the attribute name for a given attribute value (i.e.,
+	dont replace <table border> by <table border=border>), but leave
+	the attribute value alone.
+
+	* textwrap.c: fixed bug that created lines indented with spaces
+	and no further content.
+
+	* dtd.hash: insert line break before <meta>, <link> and <style>
+	instead of after. Better if such an element immediately follows
+	the <head>.
+
+2012-05-17  Bert Bos  <bert@w3.org>
+
+	* Released version 6.1
+
+2012-02-14  Bert Bos  <bert@w3.org>
+
+	* hxref.c: Added option -l to apply language-specific
+	normalizations when searching for a string. Currently only for
+	English and only to search for terms without a plural "s".
+
+2011-12-27  Bert Bos  <bert@w3.org>
+
+	* hxunpipe.c: Now also handles \# (which becomes &#)
+
+2011-08-24  Bert Bos  <bert@w3.org>
+
+	* openurl.c: Store HTTP status line in the Dictionary of response
+	headers (under key ":status"). Added fopenurl3() to open a URL
+	with another method than GET. Use libcurl's built-in support for
+	Content-Encoding. fopenurl() now takes an int *status parameter
+	for better error reporting. Added http_strerror() function. More
+	error checking and error reporting.
+
+	* hxaddid.c hxcopy.c hxcount.c hxextract.c hxincl.c hxindex.c
+	hxmultitoc.c hxname2id.c hxnormalize.c hxnsxml.c hxnum.c hxpipe.c
+	hxprune.c hxref.c hxtoc.c hxunpipe.c hxunxmlns.c hxwls.c
+	hxxmlns.c: () now takes an int *status parameter.
+
+2011-08-23  Bert Bos  <bert@w3.org>
+
+	* fopencookie.c: Avoid compiler warnings by wrapping functions
+	calls in other functions calls that do typecasts.
+
+	* openurl.c: Added a callback function to be called by exit(3) and
+	which cleans libcurl connections. Also check if a new connection
+	is closed immediately at the first action inside
+	fopenurl2(). Return NULL in that case. (Probably the target
+	doesn't exist.)
+
+2011-08-23  Bert Bos  <bert@w3.org>
+
+	* acinclude.m4: Added LIBCURL_CHECK_CONFIG
+
+	* configure.in: Added LIBCURL_CHECK_CONFIG and check for fopencookie()
+
+	* fopencookie.c: New file: implemented Linux-style fopencookie()
+	with BSD-style funopen()
+
+	* Makefile.am: Added fopencookie.c to most of the programs. Added
+	libcurl flags.
+
+	* hxunpipe.c: Added some {} to avoid a compiler warning.
+
+	* openurl.c: Added an alternative implemention of this module
+	using libcurl.
+
+2011-08-17  Bert Bos  <bert@w3.org>
+
+	* dtd.hash: No newline should be created before or after the
+	BUTTON element, it is an inline element.
+
+2011-07-10  Bert Bos  <bert@w3.org>
+
+	* hxunpipe.c: Handle \ddd (where d is octal) as output by onsgmls.
+	Handle input lines of arbitrary length. Remove unused option -x.
+
+	* hxnormalize.c: Don't add extra spaces in attribute values.
+
+2011-07-01  Bert Bos  <bert@w3.org>
+
+	* hxnormalize.c: Added option -L to remove redundant lang and
+	xml:lang attributes.
+
+2011-04-07  Bert Bos  <bert@w3.org>
+
+	* hxnormalize.c: Magic comments now recognized also inside
+	elements with mixed content (except preformatted)
+
+	* Now also handles a DOCTYPE with neither an FPI nor a system ID.
+
+2011-03-17  Bert Bos  <bert@w3.org>
+
+	* hxindex.c: Added option -r to suppress the removal of trailing
+	whitespace and punctuation. Added logic to keep a final '.' from
+	being removed if it is part of an abbreviaton or ellipsis.
+
+2011-01-18  Bert Bos  <bert@w3.org>
+
+	* connectsock.c: now uses getaddrinfo(), which handles IPv6 addresses.
+
+	* url.c: regexp pattern now also deals with IPv6 addresses
+	("http://[1234::1]/etc.")
+
+2010-11-18  Bert Bos  <bert@w3.org>
+
+	* hxcite.1: Added sections for example, bugs and history; improved
+	wording.
+
+	* hxcite.c: Updated some comments. Corrected usage message.
+
+2010-11-17  Bert Bos  <bert@w3.org>
+
+	* Released 5.8.
+
+	* hxcite.c: Added option -c to no longer recognize [[...]] inside
+	comments.
+
+2010-07-12  Bert Bos  <bert@w3.org>
+
+	* hxnsxml.c: Added hxnsxml as the complement to hxxmlns.
+
+2010-06-24  Bert Bos  <bert@w3.org>
+
+	* unent.hash: Entity "apos" was missing.
+
+2010-05-04  Bert Bos  <bert@w3.org>
+
+	* Added option -c to hxnormalize to make some comments start on a
+	new line.
+
+2010-04-27  Bert Bos  <bert@w3.org>
+
+	* hxindex.c: Fixed bug: char replaced by int, because char is
+	unsigned on PowerPC.
+
+	* Released 5.7.
+
+	* openurl.c: Fixed bug: only call dict_delete() if the dictionary
+	actually exists.
+
+	* xhref.c: Fixed bug: after wrapping an element in an A, we still
+	need to look at its sister elements for more cross-references.
+
+2010-04-26  Bert Bos  <bert@w3.org>
+
+	* Released 5.6.
+
+	* tree.c: Added wrap_elt() function. wrap_content() no longer
+	converts element name to lowercase. (But wrap_contents() isn't
+	used anywhere anymore.)
+
+	* hxincl.c: Fixed bug: only look in substitutions dictionary if
+	the dictionary has been initialized.
+
+	* dict.c: Added assert() to ensure that Dictionary arguments are
+	not NULL.
+
+	* hxref.c: The <a> element is now put around the element to
+	cross-link, instead of inside it.
+
+2010-01-15  Bert Bos  <bert@w3.org>
+
+	* hxindex.c: Now uses iconv to convert from UTF-8 to wchar_t
+	strings and then uses setlocale and wcscoll to sort index terms
+	according to user's language.
+
+2009-12-07  Bert Bos  <bert@w3.org>
+
+	* xml2asc.c: Added full error checking for invalid UTF-8.
+
+2009-11-09  Bert Bos  <bert@w3.org>
+
+	* scan.l: unquoted attribute values may now even contain '='. 
+
+2009-10-05  Bert Bos  <bert@w3.org>
+
+	* xml2asc.c: now returns a non-zero exit code if the input was not
+	correct UTF-8.
+
+2009-09-14  Bert Bos  <bert@w3.org>
+
+	* hxnormalize.c: Added option -s.
+
+2009-08-14  Bert Bos  <bert@w3.org>
+
+	* hxcopy.c: URL references to the document itself, i.e., those
+	that are of the form "", "#foo", and "?foo", are no longer
+	rewritten.
+
+2009-07-15  Bert Bos  <bert@w3.org>
+
+	* Released 5.4
+
+	* url.c: Bug in removal of /./ fixed. Now leaves one / instead of
+	none.
+
+2009-03-25  Bert Bos  <bert@w3.org>
+
+	* hxindex.c: Bug if the first index term has no alphanumeric
+	characters, so that it sorts to be equal to globalprevious. Fixed
+	by making globalprevious a non-empty, but unlikely string.
+
+2009-03-08  Bert Bos  <bert@w3.org>
+
+	* hxnormalize.c: The characters '_' and ':' in attributes *do*
+	require quote marks.
+
+2009-03-02  Bert Bos  <bert@w3.org>
+
+	* hxunentmain.c Error message now refers to the right command line
+	argument.
+
+	* hxincl.c: Added option -s to override which files are included.
+
+2009-02-12  Bert Bos  <bert@w3.org>
+
+	* textwrap.c: Buffer is now allocated on heap, so line length
+	limit is now unlimited (limited by memory), instead of 32K.
+
+2009-02-09  Bert Bos  <bert@w3.org>
+
+	* openurl.c: Different way to check max # of redirects. Added a
+	few assignments to errno to get slightly better than random error
+	messages.
+
+2009-01-28  Bert Bos  <bert@w3.org>
+
+	* Released 5.3
+
+	* hxcopy.c: Fixed bug in calculating path_from_url_to_url: Added a
+	"/" at the end of the name of the current directory, because
+	URL_s_absolutize needs to know the segment is indeed a directory.
+
+2009-01-19  Bert Bos  <bert@w3.org>
+
+	* hxtoc.c: Removed some unnecessary "EXPORT". Removed some
+	duplicate code and used routines from types.c instead.
+
+	* types.c: Added only_space(), pairlist_unset(), pairlist_set()
+	and pairlist_get().
+
+	* tree.c: get_attrib() now returns the attribute value, rather
+	than a Boolean. Removed some duplicate code by using routines in
+	types.c instead.
+
+2009-01-15  Bert Bos  <bert@w3.org>
+
+	* tree.c: Added function delete_attrib()
+
+	* hxindex.c: Added option -f to remove used title attributes and
+	magic comments.
+
+	* genid.c: Now takes whole contents (up to MAXIDLEN) to construct
+	an ID from, instead of only the first word.
+
+2009-01-12  Bert Bos  <bert@w3.org>
+
+	* url.c: replaced a comparison (<) that always fails when char is
+	unsigned (as is the case, e.g., in gcc on PowerPC-based systems)
+	by a bitwise and (&).
+
+2009-01-09  Bert Bos  <bert@w3.org>
+
+	* Released version 5.2.
+
+	* hxnum.c: Removed some routines to test class attributes and
+	re-used those from class.c instead.
+
+	* hxindex.c: Added option -n to use section numbers as anchor text
+	in the index instead of "#". Also improved sorting: Entities (such
+	as "&lt;" or "&amp;") are now skipped when comparing terms. (As
+	the manual explains, for best sorting, other entities should be
+	expanded first with hxunent(1).)
+
+2008-12-16  Bert Bos  <bert@w3.org>
+
+	* tree.c: Fixed bug in lookup(), added missing '\0' at end of
+	string for long tag names.
+
+2008-12-15  Bert Bos  <bert@w3.org>
+
+	* scan.l: Fixed bug: "<_foo" was tokenized as TEXT instead of
+	START, because {data} didn't exclude a "<" followed by a "_".
+
+2008-12-09  Bert Bos  <bert@w3.org>
+
+	* url.c: Rewrote remove_dot_segments() to no longer remove ../
+	from the start of a path.
+
+	* openurl.c: Local files can be opened with mode "w" (remote ones
+	still not)
+
+	* Makefile.am: Added hxcopy utility.
+
+2008-11-29  Bert Bos  <bert@w3.org>
+
+	* scan.l: Fixed regexp for cdata.
+
+2008-11-28  Bert Bos  <bert@w3.org>
+
+	* hxincl.c: Added option -f.
+
+2008-11-20  Bert Bos  <bert@w3.org>
+
+	* Released version 5.1.
+
+	* Updates to the manual pages: the "hx" prefix was missing from
+	many occurrences of commnd names in the manual pages. (Thanks
+	again to Daniel Leidert for pointing that out.)
+
+2008-11-05  Bert Bos  <bert@w3.org>
+
+	* Most programs renamed with a "hx" prefix.
+
+	* hxtoc.c: Added option -d to use the DIV that encloses a header
+	as the target of the links in the ToC, instead of the header
+	itself.
+
+2008-08-17  Bert Bos  <bert@w3.org>
+
+	* Released version 4.7.
+
+	* unentmain.c: Added information for gcc that usage() never
+	returns.
+
+	* url.c: Inverted condition (caused by incorrect replacement of
+	strncmp() by hasprefix())
+
+	* unentmain.c: Missing #include <ctype.h>
+
+	* pipe.c: Now using lineno instead of yylineno.
+
+	* Makefile.am: Replaced %-rules by old-style rules, added missing
+	built sources and reordered them, so they are built in the right
+	sequence. (Thanks to Daniel Leidert for these changes)
+
+2008-08-10  Bert Bos  <bert@w3.org>
+
+	* openurl.c: Now handles redirects and can store HTTP headers.
+
+	* dict.c: New module to store HTTP headers (or any other key/value
+	pairs, where both key and value are strings).
+
+	* headers.c: New module to parse HTTP headers.
+
+2008-07-30  Bert Bos  <bert@w3.org>
+
+	* genid.c: made the search for existing IDs case-insentive. That's
+	necessary for HTML. It wastes a few IDs for XML, but not too much.
+
+2008-07-07  Bert Bos  <bert@w3.org>
+
+	* toc.c: Added option -c to allow class=toc to be replaced by
+	another class name.
+
+2008-02-12  Bert Bos  <bert@w3.org>
+
+	* Released version 4.5
+
+	* Fixes to man pages, fix to uncdata (suppressed an incorrect
+	newline in the output, new AC_INIT macro in configure.in, typo in
+	README. (Thanks to Daniel Leidert)
+
+2008-01-24  Bert Bos  <bert@w3.org>
+
+	* index.c: The links now have a TITLE attribute for better
+	accessibility.
+
+2007-12-11  Bert Bos  <bert@w3.org>
+
+	* scan.l: Now accepts "<![CDATA[...]>".
+
+2007-10-23  Bert Bos  <bert@w3.org>
+
+	* url.c: Query component is now separate from path component. 
+	Making relative URLs absolute is now conformant to RFC 3986. This
+	fixes in particular the incorrect output of wls.
+
+2007-04-25  Bert Bos  <bert@w3.org>
+
+	* genid.c: fixed bug with string not ending with \0 if len is 0.
+
+2007-04-18  Bert Bos  <bert@w3.org>
+
+	* unent.hash: Added option -f to "fix" unrecognized entities by
+	replacing their & by &amp;
+
+2007-03-22  Bert Bos  <bert@w3.org>
+
+	* toc.c: DFN elements are no longer copied to the ToC, only their
+	content is.
+
+2007-03-15  Bert Bos  <bert@w3.org>
+
+	* Released version 3.9
+
+	* tree.c: fixed bug in create(), which left t->sister uninitialized
+
+2006-10-04  Bert Bos  <bert@w3.org>
+
+	* Released version 3.8
+
+	* toc.c: Now allows spaces around "toc" in "<!--toc-->"
+
+	* index.c: No longer destroys the title attribute.
+
+2006-08-10  Bert Bos  <bert@w3.org>
+
+	* xmlns.c: A local attribute will not get "{}" prefixed.
+
+	* types.c: If strapp() is called with a NULL as first arg, a new
+	string will be allocated on the heap.
+
+	* index.c: Better sorting of terms with sub-terms.
+
+	* addid.c: Made element matching case-sensitive when -x is used.
+
+	* addadd.1: Removed reference to non-existent -a option.
+
+2005-12-16  Bert Bos  <bert@Candy.local>
+
+	* xref.c: If the element to link is a <span>, the span is replaced
+	by an <a>, instead of the <a> being added, as for other kinds of
+	elements.
+
+	* The string type is now an array of chars instead of unsigned chars.
+
+2005-11-09  Bert Bos  <bert@w3.org>
+
+	* xmlns.c: An element without a Namespace prefix and without a
+	default Namespace is no longer reported as an error.
+
+	* xref.c: <cite> is no longer treated as en element whose content
+	can be cross-referenced.
+
+	* dtd.hash: No empty lines between <link> elements when
+	normalizing. <Textarea> is treated like <pre>.
+
+	* Makefile.am: Added unxmlns.
+
+	* unxmlns.c: new program, undoes the effect of xmlns, i.e.,
+	converts names like <{namespace-url}foo> to <foo
+	xmlns="namespace-url">
+
+	* pipe.c: No longer treats attribute "id" specially, but
+	recognizes "xml:id" and gives it a type of TOKEN instead of CDATA.
+
+2005-05-05  Bert Bos  <bert@w3.org>
+
+	* Published version 3.7.
+
+	* index.c: Now accepts a list of class names on the command line
+	for elements that also will be added to the index, in addition the
+	standard ones. Thanks to Francesco Cosoleto <cosoleto.francesco
+	[at] sitoverde.com>
+
+	* textwrap.c: The marker for which spaces to keep is now a
+	character 0x1 instead of 0x80, because 0x80 can occur in UTF-8
+	encoded XML data. 0x1 can occur as well, but is less likely. Need
+	to fix the algorithm better than this...
+
+2005-04-27  Bert Bos  <bert@w3.org>
+
+	* normalize.c: Attribute values are printed without quotes when
+	possible.
+
+2005-03-11  Bert Bos  <bert@w3.org>
+
+	* extract.1, printlinks.1, uncdata.1, xselect.1: new manpages,
+	thanks to Beverly Davis <ponyfeathers [at] mailhaven.com>
+
+2005-01-18  Bert Bos  <bert@w3.org>
+
+	* multitoc.c: class attributes from header tags are now copied to
+	generated LI tags (thanks to howcome)
+
+2005-01-09  Bert Bos  <bert@w3.org>
+
+	* scan.l: the scanner didn't accept the curly braces in the output
+	of xmlns. Not sure what was wrong with the old regexp for "name",
+	but after simplifying it, it worked...
+
+2004-12-20  Bert Bos  <bert@w3.org>
+
+	* name2id.c: new program: moves ID= and NAME= from A elements to
+	their parents.
+
+2004-11-08  Bert Bos  <bert@w3.org>
+
+	* addid.1: added (thanks to James Rowe <Jay [at]
+	jnrowe.ukfsn.org>)
+
+	* incl.1: description corrected (thanks to James Rowe <Jay [at]
+	jnrowe.ukfsn.org>)
+
+2004-09-07  Bert Bos  <bert@w3.org>
+
+	* toc.c: now copies any class attribute found the heading elements
+	to the generated LI element in the ToC.
+
+2004-09-01  Bert Bos  <bert@w3.org>
+
+	* cite.c: Added %m as a possible part of the template (to stand
+	for the value of the -m option), made cite recognize {{...}} as
+	well as [[...]] (but without expanding it), and changed the
+	default template to generate <!--{{%m%L}}-->, so that cite can be
+	run again on it's own output.
+
+	* Released version 3.4.
+
+	* normalize.c: the check if an endtag was needed omitted to test
+	for other things than text or an element. But a comment or procins
+	can also follow an element (and requires that the end tag is
+	inserted).
+
+2004-08-30  Bert Bos  <bert@w3.org>
+
+	* normalize.c, tree.c: an end tag cannot be omitted if the next
+	element is a valid child of the current one. E.g., the </p> cannot
+	be omitted in <p>...</p><ins>...</ins>. To test for this in
+	normalize.c, the existing static function has_parent() in tree.c
+	had to become exported.
+
+2004-08-29  Bert Bos  <bert@w3.org>
+
+	* pipe.c: bug: when & is *not* followed by #, it should still be
+	printed.
+
+2004-08-27  Bert Bos  <bert@w3.org>
+
+	* Published version 3.2
+
+	* types.s: fixed bug in eq() macro: missing parentheses caused
+	some arguments to be misinterpreted.
+
+	* pipe.c and unpipe.c: pipe outputs "&#" as "\#" (just like
+	nsgmls) and unpipe translates it back. unpipe now also accepts a
+	"C" line.
+
+2004-08-10  Bert Bos  <bert@w3.org>
+
+	* xref.c: TITLE attribute of DFN element was normalized too soon,
+	which removed any "|" that was needed later.
+
+2004-04-29  Bert Bos  <bert@w3.org>
+
+	* Released version 3.0
+
+	* cite.c: Fixed bug: after a [[...]] without a marker, the program
+	would not look for more [[...]] on the same line.
+
+2004-04-28  Bert Bos  <bert@w3.org>
+
+	* unent.hash now considers a "&" that is not followed by "#" or an
+	alphanumeric character to mean the same as "&amp;" (as required by
+	SGML, although invalid in XML)
+
+2004-04-26  Bert Bos  <bert@w3.org>
+
+	* textwrap.c: increased MAXLINE, since I have an application that
+	uses 20000-character lines.
+
+	* scan.l: Scanner now returns the omitted ">" in "<foo<bar>",
+	since this is valid in SGML (although not in XML, but we're not
+	validating anyway).
+
+2004-04-22  Bert Bos  <bert@w3.org>
+
+	* Released version 2.9.
+
+	* mkbib.c: If a field ends with "." and the template would put a
+	"." after it, only one of the two periods is printed. Added option
+	-n and -r, to specify how many authors are printed at most and
+	what string is printed instead if there are more. Defaults are 3
+	and "et al."
+
+2004-04-21  Bert Bos  <bert@w3.org>
+
+	* cite.c, mkbib.c: increased size of hash table from 200 to 4096.
+
+2003-12-02  Bert Bos  <bert@w3.org>
+
+	* normalize.c: added logic to avoid that an end tag is omitted if
+	there is text after it.
+
+2003-09-15  Bert Bos  <bert@w3.org>
+
+	* tree.c: if the currently open element doesn't accept text,
+	append_text no longer starts by closing all open elements that
+	have omittable end tags and don't accept text, but only closes as
+	many as needed to arrive at one that accepts the text's preferred
+	parent (which is P in HTML). This fixes a bug that text inside
+	BODY closes the BODY and HTML and then reopens them again to
+	insert a P. It now stops before closing BODY, because BODY will
+	accept the P.
+
+2003-09-04  Bert Bos  <bert@w3.org>
+
+	* incl.c: printed one "?" too many at the end of a PI.
+
+2003-08-11  Bert Bos  <bert@w3.org>
+
+	* xref.c: now splits the key into |-separated parts, just like
+	index.c does.
+
+2003-08-07  Bert Bos  <bert@w3.org>
+
+	* addid.c: removed reference to search.h, since it is not used.
+
+	* mkbib.c, xref.c, cite.c: now use our own implementation of hash
+	tables if search.h does not exist.
+
+2003-07-15  Bert Bos  <bert@w3.org>
+
+	* mkbib.c: fixed bug that caused last entry in the database to not
+	be properly stored in the hash table.
+
+2003-04-09  Bert Bos  <bert@w3.org>
+
+	* Renamed search.h to search-freebsd.h and arranged for it to be
+	used only if the system doesn't have a search.h of its own.
+
+	* Added sources for twalk, tfind and tsearch.
+
+	* Added search.h and adapted configure.in.
+
+	* Changed export.h to quote the argument of EXPORTDEF, to deal
+	with the C preprocessor in gcc 3.2, which otherwise inserts extra
+	spaces. Adapted cexport.c to unquote the argument of EXPORTDEF
+	again before writing it to a .e file.
+
+2003-03-12  Bert Bos  <bert@w3.org>
+
+	* configure.in: removed some unneeded rules (LN_S, MAN2HTML,
+	ERROR_AT_LINE, REALLOC) and dropped requirement from autocon 2.57
+	to autocon 2.52
+
+2003-01-21  Bert Bos  <bert@bert.inria.fr>
+
+	* heap.c: changed the __FILE__ magic so that it compiles with
+	gcc3. (It gives a harmless warning still :-( )
+
+2002-11-06  Bert Bos  <bert@w3.org>
+
+	* scan.l: added recognition for UTF-8 Byte Order Mark at start.
+	(The BOM is subsequently ignored, we don't currently do anything
+	with the knowledge that the file is UTF-8.)
+
+2002-10-30  Bert Bos  <bert@w3.org>
+
+	* asc2xml, xml2asc, xmlrecode: removed xmlrecode and made asc2xml
+	and xml2asc independent programs. They were so small that
+	symlinking made no sense.
+
+	* tree.c: added routine need_stag() that check if the start tag is
+	required and added build_path() that tries to build a path of
+	omitted start tags from the current tree to the element that is to
+	be added.
+
+	* dtd.hash: added a column for omittable start tags, to help the
+	heuristics in html_push (tree.c) to infer the intended structure
+	better.
+
+2002-10-29  Bert Bos  <bert@w3.org>
+
+	* xselect.c: now supports case-insensitive matching
+
+	* xref.c: when finding a match, now ignores all characters except
+	letters, digits and dashes.
+
+	* uncdata.c: Fixed bug: forgot to print "<!" when starting a
+	comment.
+
+	* toc.1: Added option -t
+
+	* Released version 2.4
+
+	* dtd.hash: added table as possible parent for tr. It's not
+	correct, but it avoids an incorrect correction with tr inside a
+	nested table: it closed the nested table and considered the tr to
+	be part of the outer table. A better solution is needed...
+
+2002-02-20  Bert Bos  <bert@w3.org>
+
+	* uncdata.c: new program: removes CDATA sections from XML files.
+
+2002-02-18  Bert Bos  <bert@w3.org>
+
+	* xselect.c: Added options -s (separator) and -i
+	(case-insensitive). Added some documentation.
+
+2002-02-14  Bert Bos  <bert@w3.org>
+
+	* selector.c: fixed bug in recognition of attribute selectors:
+	pointer was incremented before the character was stored, instead
+	of the reverse.
+
+2002-02-05  Bert Bos  <bert@w3.org>
+
+	* Released version 2.2.
+
+	* cite.c: Now accepts a -m option to flag references. This allows
+	to find differently flagged references in different passes.
+
+	* multitoc.c: Fixed two bugs: a missing ! before strncmp and
+	missing printf(">"), which caused headings with child elements to
+	be copied incorrectly.
+
+2001-09-25  Bert Bos  <bert@w3.org>
+
+	* index.c: Fixed bug: no longer tries to index empty elements,
+	such as "<dfn></dfn>"
+
+2001-08-01  Bert Bos  <bert@w3.org>
+
+	* selector.c: Bug fixed: some occurrences of START_EQ were renamed
+	to EQ, but not all.
+
+	* select.c: renamed to xselect.c, because select is a built-in
+	command of certain shells.
+
+2001-07-17  Bert Bos  <bert@w3.org>
+
+	* unent.hash: fixed bug that copied a whole line instead of a
+	single unexpanded entity. Added option -b ("built-in") to leave
+	standard entities (amp, gt, lt, quot) untocuhed.
+
+	* Released version 2.0
+
+	* normalize.c: Added option -d to omit the doctype from the
+	output.
+
+2001-07-16  Bert Bos  <bert@w3.org>
+
+	* selector.c: Fixed bug in parsing of "[name]"; fixed missing
+	case in attribs_to_string()
+
+	* select.c: Now implements :lang and :nth...(an+b)
+
+2001-07-10  Bert Bos  <bert@w3.org>
+
+	* Released version 1.8
+
+	* mkbib.c: fixed bug in read_entries(). On Linux, calling
+	hsearch() with an action of ENTER replaces any existing data
+	with new data, if it is different, On Solaris the existing record
+	is kept. The routine now puts the data in the existing record.
+
+2001-07-09  Bert Bos  <bert@w3.org>
+
+	* Released version 1.7
+
+	* selector.c: Added (types and a parser for CSS selector)
+
+	* select.c: Added (implementation of CSS selectors)
+
+2001-05-23  Bert Bos  <bert@w3.org>
+
+	* Released version 1.6
+
+2001-05-21  Bert Bos  <bert@w3.org>
+
+	* toc.c: In expand(), if keep-anchors is false, IDs are now not
+	copied either.
+
+2001-04-19  Bert Bos  <bert@w3.org>
+
+	* textwrap.c: Fixed bug when space fell exactly at end of line.
+	But logic still is not perfect, since it creates spaces (indents)
+	on empty lines.
+
+2001-03-22  Bert Bos  <bert@w3.org>
+
+	* toc.c: </li> was not printed, even if xml was True
+
+2001-02-04  Bert Bos  <bert@w3.org>
+
+	* printlinks: added. 
+
+2000-09-14  Bert Bos  <bert@w3.org>
+
+	* normalize.c: Fixed bug that caused text not to be preformatted
+ 	inside an element nested inside a PRE.
+
+	* textwrap.c: Fixed bug that caused lines not to be broken at all
+ 	if there was no break point before the target length.
+
+2000-09-04  Bert Bos  <bert@w3.org>
+
+	* xref.c: now skips quotes when comparing terms
+
+2000-08-29  Bert Bos  <bert@w3.org>
+
+	* Released version 1.3
+
+2000-08-26  Bert Bos  <bert@w3.org>
+
+	* index.c: termcmp() now correctly compares keys that end with
+ 	punctuation.
+
+	* normalize.1: now describes the -e (add endtags) option.
+
+	* xref.c: now uses title attribute in instances as well
+
+2000-08-21  Bert Bos  <bbos@lanalana.inria.fr>
+
+	* Released version 1.2
+
+	* All occurrences of "DOCTYPE" are now in uppercase.
+
+2000-08-20  Bert Bos  <bert@w3.org>
+
+	* tree.c: Now checks if there is a parent open before popping
+	elements from the stack.
+
+	* textwrap.c: Now flushes at \n or \r in preformatted, because
+	long preformatted elements could too easily overflow the buffer.
+
+	* html.y: Added some const's to formal parameters
+
+	* genid.c: minlen now works even if there are child elements; no
+ 	longer skips '-' and '.' when it generates an ID; no longer
+	generates zero-length IDs.
+
+	* cexport.c: Now recognizes quoted file names after "#line"
+
+	* class.c: Put contains() and has_class() in new file
+
+	* Makefile.am: Added addid and extract
+
+Version 1.1 (2 August 2000)
+
+    Better (?) heuristic for closing and generating elements in
+    html_push() in tree.c. It no longer closes and re-opens the <html> 
+    element in case both </head> and <body> are missing.
+
+    Different path for bash (/usr/local/bin/bash instead of
+    /usr/local/gnu/bin/bash) in cite-mkbib.
+
+    cite-mkbib was missing from the tar file.
+
+    Program incl changed. It now looks for <!--include "file"-->.
+    Because of that, a callback endincl() was added in html.y
+
+    Some programs now interpret argument "-" as meaning "read from
+    standard input."
+
+    Fixed bug in toc: it didn't correctly guard against re-use of IDs, 
+    since it stored a random string rather than an ID in the binary
+    tree.
+
+    Added some handy functions to types.c: stapp(), chomp(), min(),
+    max().

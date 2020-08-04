@@ -1,0 +1,23 @@
+Proprietary extensions: Microsoft Internet Explorer accepts a
+proprietary extension to HTML that looks like malformed mark-up:
+"<![if xxx]>" or "<![endif]>" (where xxx is text that doesn't contain
+"]"). The parser currently reports (correctly) a syntax error. Should
+there be a mode in which this is accepted? If so, as what? as TEXT?
+
+
+Let hxindex recognize DATA-INDEX attributes in addition to TITLE? 
+(These new DATA- attributes are suggested by HTML5.)
+
+Let hxindex look at locale for sorting order?
+
+Let hxnormalize sort the <head> into a canonical order? (title, meta
+sorted by name and http-equiv, link sorted by rel, style, script)
+
+Add ruby, rb, rp, rt and rtc to dtd.hash.
+
+Add MathML elements to dtd.hash.
+
+An option to add <![CDATA[...]]> to CDATA sections or to escape <, >
+and & in such sections (only when output is XML).
+
+Properly parse the srcset attribute.
